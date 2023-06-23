@@ -43,16 +43,37 @@ arrow_button = driver.find_element(By.XPATH,'//*[@id="root"]/div/div[2]/div/div/
 time.sleep(2)
 
 div = driver.find_elements(By.CLASS_NAME,"dateInnerCell")
-date = []
-price = []
-for i,element in enumerate(div):
+dates = []
+prices = []
+for element in div:
     p_elements = element.find_elements(By.TAG_NAME,"p")
-    for p_element in p_elements:
+    for i,p_element in enumerate(p_elements):
         text = p_element.get_attribute("innerText")
         if i == 0:
-            date.append(text)
+            dates.append(text)
         if i == 1:
-            price.append(text)
+            prices.append(text)
+
+data = {}
+for i,date in enumerate(dates):
+    data[i+1] = prices[i]
+
+data = dict(list(data.items())[29:])
+data = dict(list(data.items())[:6])
+
+new = 1
+old = 32
+for i in range(0,4):
+    data[new] = data[old]
+    del data[old]
+    new+=1
+    old+=1
+
+# data[1] = data[32]
+# data[2] = data[33]
+# data[3] = data[34]
+# data[4] = data[35]
+print(data)
 
 
 # date = driver.find_element(By.XPATH,'//*[@id="root"]/div/div[2]/div/div/div[2]/div[1]/div[3]/div[1]/div/div/div/div[2]/div/div[2]/div[2]/div[3]/div[1]/div[7]/div/p[1]').text
